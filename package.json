@@ -1,0 +1,43 @@
+{
+  "name": "react-native-image-playground",
+  "version": "0.1.0",
+  "description": "My new module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module",
+    "open:ios": "xed example/ios",
+    "open:android": "open -a \"Android Studio\" example/android"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "react-native-image-playground",
+    "ReactNativeImagePlayground"
+  ],
+  "repository": "https://github.com/Ucekay/react-native-image-playground",
+  "bugs": {
+    "url": "https://github.com/Ucekay/react-native-image-playground/issues"
+  },
+  "author": "Ucekay <u331951c@ecs.osaka-u.ac.jp> (https://github.com/Ucekay)",
+  "license": "MIT",
+  "homepage": "https://github.com/Ucekay/react-native-image-playground#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^18.0.25",
+    "expo-module-scripts": "^3.5.2",
+    "expo-modules-core": "^1.12.24"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+}
