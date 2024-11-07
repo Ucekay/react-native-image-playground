@@ -27,7 +27,7 @@ struct ContentView: View {
       }
       Button(
         action: {
-          showGenerator.toggle()
+          generate()
         }, label: { Label("Generate Image", systemImage: "wand.and.sparkles") }
       )
       .font(.headline)
@@ -36,8 +36,58 @@ struct ContentView: View {
       .background(Color.blue)
       .cornerRadius(10)
       .padding()
-    }.imagePlaygroundSheet(
-      isPresented: $showGenerator, concept: "Japan", onCompletion: { self.imageURL = $0 })
+    }
+    .sheet(isPresented: $showGenerator) {
+      ImagePlaygroundScreen { image in
+        showGenerator = false
+        self.imageURL = image
+      }
+      .ignoresSafeArea()
+    }
+  }
+
+  func generate() {
+    showGenerator.toggle()
+  }
+}
+
+@available(iOS 18.1, *)
+struct ImagePlaygroundScreen: UIViewControllerRepresentable {
+  var onFinish: (URL?) -> Void
+
+  func makeUIViewController(context: Context) -> ImagePlaygroundViewController {
+    let controller = ImagePlaygroundViewController()
+    controller.delegate = context.coordinator
+    controller.modalPresentationStyle = .fullScreen
+    return controller
+  }
+
+  func updateUIViewController(_ uiViewController: ImagePlaygroundViewController, context: Context) {
+    uiViewController.delegate = context.coordinator
+  }
+
+  func makeCoordinator() -> Coordinator {
+    return Coordinator(onFinish: onFinish)
+  }
+
+  class Coordinator: NSObject, ImagePlaygroundViewController.Delegate {
+    var onFinish: (URL?) -> Void
+
+    init(onFinish: @escaping (URL?) -> Void) {
+      self.onFinish = onFinish
+    }
+
+    func imagePlaygroundViewController(
+      _ controller: ImagePlaygroundViewController, didCreateImageAt imageURL: URL
+    ) {
+      onFinish(imageURL)
+    }
+
+    func imagePlaygroundViewControllerDidCancel(
+      _ imagePlaygroundViewController: ImagePlaygroundViewController
+    ) {
+      onFinish(nil)
+    }
   }
 }
 
