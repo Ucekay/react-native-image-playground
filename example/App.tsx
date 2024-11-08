@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import * as ReactNativeImagePlayground from "react-native-image-playground";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ReactNativeImagePlayground.ReactNativeImagePlaygroundView />
+      <Button
+        title="Launch Image Playground"
+        onPress={ReactNativeImagePlayground.launchImagePlayground}
+      />
     </View>
   );
 }
