@@ -14,6 +14,18 @@ A React Native/Expo package that integrates Apple Intelligence Image Playground 
 expo install react-native-ios-image-playground
 ```
 
+## Important: Development Setup
+
+⚠️ An Apple Developer Program membership is required for testing on physical devices.
+
+To create and run a development build on your device:
+```sh
+npx expo prebuild --platform ios --clean
+```
+```sh
+npx expo run:ios
+```
+
 ## Usage
 
 ```tsx
