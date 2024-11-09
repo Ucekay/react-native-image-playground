@@ -14,7 +14,7 @@ public class ReactNativeImagePlaygroundModule: Module {
 
     AsyncFunction("launchImagePlaygroundAsync") { () -> [String: Any] in
       if #available(iOS 18.1, *) {
-        self.handler = ImagePlayground18Handler(appContext: self.appContext)
+        self.handler = SupportedImagePlaygroundHandler(appContext: self.appContext)
       } else {
         self.handler = UnsupportedImagePlaygroundHandler(appContext: self.appContext)
       }
@@ -39,8 +39,9 @@ class UnsupportedImagePlaygroundHandler: ImagePlaygroundHandler {
         }
 
         let alert = UIAlertController(
-          title: "サポート対象外",
-          message: "Image Playgroundはこのデバイスではサポートされていません",
+          title: "Image Playground is not available",
+          message:
+            "Image Playground is only available on iOS 18.1 and later, and is supported on iPhone 15 Pro, iPhone 15 Pro Max, and iPhone 16 series.",
           preferredStyle: .alert
         )
         alert.addAction(
@@ -55,7 +56,7 @@ class UnsupportedImagePlaygroundHandler: ImagePlaygroundHandler {
 }
 
 @available(iOS 18.1, *)
-class ImagePlayground18Handler: ImagePlaygroundHandler {
+class SupportedImagePlaygroundHandler: ImagePlaygroundHandler {
   private weak var appContext: AppContext?
   private var delegate: ImagePlaygroundDelegate?
   @Environment(\.supportsImagePlayground) private var supportsImagePlayground
@@ -111,7 +112,7 @@ class ImagePlayground18Handler: ImagePlaygroundHandler {
       _ imagePlaygroundViewController: ImagePlaygroundViewController
     ) {
       imagePlaygroundViewController.dismiss(animated: true)
-      completion(.failure(NSError(domain: "ReactNativeImagePlayground", code: -2)))
+      completion(.success([:]))
     }
   }
 }
