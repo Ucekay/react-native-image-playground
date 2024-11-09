@@ -46,7 +46,7 @@ class UnsupportedImagePlaygroundHandler: ImagePlaygroundHandler {
         )
         alert.addAction(
           UIAlertAction(title: "OK", style: .default) { _ in
-            continuation.resume(throwing: NSError(domain: "ReactNativeImagePlayground", code: -3))
+            continuation.resume(returning: [:])
           })
 
         currentViewController.present(alert, animated: true)
