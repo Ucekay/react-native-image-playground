@@ -14,6 +14,9 @@ A React Native/Expo package that integrates Apple Intelligence Image Playground 
 expo install react-native-ios-image-playground
 ```
 
+> ⚠️When installing this package in an existing React Native project (not Expo managed project), please follow the guide at the link below
+> https://docs.expo.dev/bare/installing-expo-modules/
+
 ## Important: Development Setup
 
 ⚠️ An Apple Developer Program membership is required for testing on physical devices.
