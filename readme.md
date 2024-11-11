@@ -4,7 +4,7 @@ A React Native/Expo package that integrates Apple Intelligence Image Playground 
 
 ## Requirements
 
-- iOS 18.1 or later
+- iOS 18.2 or later
 - iPhone 15 Pro, iPhone 15 Pro Max, or iPhone 16 series
 - Currently, a physical device capable of running Image Playground
 
