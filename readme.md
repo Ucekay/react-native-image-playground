@@ -29,6 +29,12 @@ npx expo prebuild --platform ios --clean
 npx expo run:ios
 ```
 
+## Limitations
+
+- iOS 18.1 or later is required
+- Only supported on iPhone 15 Pro, iPhone 15 Pro Max, or iPhone 16 series
+- Physical device is required for testing
+
 ## Usage
 
 ```tsx
@@ -81,14 +87,32 @@ const styles = StyleSheet.create({
 
 ## API
 
-### `launchImagePlaygroundAsync(): Promise<string | undefined>`
+### `launchImagePlaygroundAsync(params?: ImagePlaygroundParams): Promise<string | undefined>`
 
-Launches the Image Playground and returns the URL of the created image.
+Launches the Image Playground and returns the URL of the created image. You can provide optional parameters to customize the behavior.
 
-```typescript
-import { launchImagePlaygroundAsync } from "react-native-image-playground";
+#### Parameters
 
-const handlePress = async () => {
-  const url = await launchImagePlaygroundAsync();
-};
-```
+`params` - Optional object with the following properties:
+
+- `source`: Source image URL to start editing with
+  > ⚠️ Only remote images (http:// or https:// URLs) are supported. Local images (file:// URLs) are not supported.
+
+- `concepts`: Options for AI generation concepts
+  - Text-based concepts:
+    ```typescript
+    {
+      text: string | string[]  // Single text or array of texts for concepts
+    }
+    ```
+  - Content-based concepts:
+    ```typescript
+    {
+      title?: string,         // Optional title for the extracted concept
+      content: string         // Content to extract concepts from
+    }
+    ```
+
+#### Examples
+
+Basic usage:

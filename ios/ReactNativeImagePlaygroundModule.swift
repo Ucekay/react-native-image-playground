@@ -3,10 +3,7 @@ import ImagePlayground
 import SwiftUICore
 
 protocol ImagePlaygroundHandler {
-  func launch(
-    conceptOptions: [String: Any],
-    sourceImage: [String: Any]?
-  ) async throws -> [String: Any]
+  func launch(params: [String: Any]?) async throws -> [String: Any]
 }
 
 enum ImageConceptType {
@@ -21,20 +18,13 @@ public class ReactNativeImagePlaygroundModule: Module {
   public func definition() -> ModuleDefinition {
     Name("ReactNativeImagePlayground")
 
-    AsyncFunction("launchImagePlaygroundAsync") {
-      (
-        conceptOptions: [String: Any],
-        sourceImage: [String: Any]?
-      ) -> [String: Any] in
+    AsyncFunction("launchImagePlaygroundAsync") { (params: [String: Any]?) -> [String: Any] in
       if #available(iOS 18.1, *) {
         self.handler = SupportedImagePlaygroundHandler(appContext: self.appContext)
       } else {
         self.handler = UnsupportedImagePlaygroundHandler(appContext: self.appContext)
       }
-      return try await self.handler?.launch(
-        conceptOptions: conceptOptions,
-        sourceImage: sourceImage
-      ) ?? [:]
+      return try await self.handler?.launch(params: params) ?? [:]
     }
   }
 }
@@ -46,10 +36,7 @@ class UnsupportedImagePlaygroundHandler: ImagePlaygroundHandler {
     self.appContext = appContext
   }
 
-  func launch(
-    conceptOptions: [String: Any],
-    sourceImage: [String: Any]?
-  ) async throws -> [String: Any] {
+  func launch(params: [String: Any]?) async throws -> [String: Any] {
     return try await withCheckedThrowingContinuation { continuation in
       Task { @MainActor in
         guard let currentViewController = self.appContext?.utilities?.currentViewController() else {
@@ -87,42 +74,42 @@ class SupportedImagePlaygroundHandler: ImagePlaygroundHandler {
   private func loadImage(from urlString: String) async throws -> UIImage? {
     guard let url = URL(string: urlString) else { return nil }
 
-    // ローカルファイルの場合
     if url.scheme == "file" {
-      return UIImage(contentsOfFile: url.path)
+      throw NSError(
+        domain: "ReactNativeImagePlayground",
+        code: -2,
+        userInfo: [
+          NSLocalizedDescriptionKey:
+            "Local images are not supported. Please use remote images (http:// or https:// URLs) only."
+        ]
+      )
     }
 
-    // リモートURLの場合
     let (data, _) = try await URLSession.shared.data(from: url)
     return UIImage(data: data)
   }
 
-  func launch(
-    conceptOptions: [String: Any],
-    sourceImage: [String: Any]?
-  ) async throws -> [String: Any] {
+  func launch(params: [String: Any]?) async throws -> [String: Any] {
     guard supportsImagePlayground else {
       return try await UnsupportedImagePlaygroundHandler(appContext: appContext).launch(
-        conceptOptions: conceptOptions,
-        sourceImage: sourceImage
-      )
+        params: params)
     }
 
     return try await withCheckedThrowingContinuation { continuation in
       Task { @MainActor in
         let controller = ImagePlaygroundViewController()
-        controller.modalPresentationStyle = .automatic
+        controller.modalPresentationStyle = .pageSheet
         controller.isModalInPresentation = false
 
-        // sourceImageの設定（非同期）
-        if let uri = sourceImage?["uri"] as? String {
-          if let image = try? await loadImage(from: uri) {
+        if let source = params?["source"] as? String {
+          if let image = try? await loadImage(from: source) {
             controller.sourceImage = image
           }
         }
 
-        // コンセプトの生成
-        controller.concepts = createConcepts(from: conceptOptions)
+        if let options = params?["concepts"] as? [String: Any] {
+          controller.concepts = createConcepts(from: options)
+        }
 
         self.delegate = ImagePlaygroundDelegate { result in
           continuation.resume(with: result)
@@ -139,26 +126,23 @@ class SupportedImagePlaygroundHandler: ImagePlaygroundHandler {
     }
   }
 
-  private func createConcepts(from options: [String: Any]) -> [ImagePlaygroundConcept] {
-    guard let type = options["type"] as? String else {
-      return []
+  private func createConcepts(from options: [String: Any]?) -> [ImagePlaygroundConcept] {
+    guard let options = options else { return [] }
+
+    if let text = options["text"] {
+      if let stringArray = text as? [String] {
+        return stringArray.map { .text($0) }
+      } else if let singleString = text as? String {
+        return [.text(singleString)]
+      }
     }
 
-    switch type {
-    case "text":
-      if let content = options["content"] as? [String] {
-        return content.map { .text($0) }
-      } else if let content = options["content"] as? String {
-        return [.text(content)]
-      }
-      return []
-    case "extractedWithTitle":
-      guard let content = options["content"] as? String else { return [] }
+    if let content = options["content"] as? String {
       let title = options["title"] as? String
       return [.extracted(from: content, title: title)]
-    default:
-      return []
     }
+
+    return []
   }
 
   class ImagePlaygroundDelegate: NSObject, ImagePlaygroundViewController.Delegate {

@@ -4,8 +4,9 @@ import { Platform, Alert } from "react-native";
 import {
   ImagePlaygroundModuleType,
   ImagePlaygroundResult,
-  ImagePlaygroundConceptOptions,
   ImagePlaygroundSourceImage,
+  ImagePlaygroundOptions,
+  ImagePlaygroundParams,
 } from "./index.type";
 
 const imagePlaygroundModule = requireNativeModule(
@@ -13,8 +14,7 @@ const imagePlaygroundModule = requireNativeModule(
 ) as ImagePlaygroundModuleType;
 
 const launchImagePlaygroundAsync = async (
-  conceptOptions: ImagePlaygroundConceptOptions,
-  sourceImage?: ImagePlaygroundSourceImage,
+  params: ImagePlaygroundParams = {},
 ): Promise<string | undefined> => {
   if (Platform.OS === "android") {
     Alert.alert(
@@ -26,15 +26,13 @@ const launchImagePlaygroundAsync = async (
   }
 
   const res: ImagePlaygroundResult =
-    await imagePlaygroundModule.launchImagePlaygroundAsync(
-      conceptOptions,
-      sourceImage,
-    );
+    await imagePlaygroundModule.launchImagePlaygroundAsync(params);
   return res.url;
 };
 
 export {
   launchImagePlaygroundAsync,
-  type ImagePlaygroundConceptOptions,
+  type ImagePlaygroundOptions,
   type ImagePlaygroundSourceImage,
+  type ImagePlaygroundParams,
 };
