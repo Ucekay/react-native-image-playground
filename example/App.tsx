@@ -1,5 +1,4 @@
 import { Image } from "expo-image";
-import { launchImageLibraryAsync } from "expo-image-picker";
 import { useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { launchImagePlaygroundAsync } from "react-native-image-playground";
@@ -8,15 +7,7 @@ export default function App() {
   const [url, setUrl] = useState<string | undefined>(undefined);
 
   const handlePress = async () => {
-    const result = await launchImageLibraryAsync({ base64: true });
-    if (!result.assets?.[0]?.uri) {
-      return;
-    }
-    console.log("Image Library result", result.assets[0].uri);
-    launchImagePlaygroundAsync({
-      source:
-        "file:///private/var/mobile/Containers/Data/Application/33F27288-9576-4388-906F-A04AD92FDAF9/tmp/PlaygroundImage17-Ksgpyg.heic",
-    })
+    launchImagePlaygroundAsync({ concepts: { text: ["cat", "forest"] } })
       .then((res) => {
         setUrl(res);
         console.log("Image Playground result", res);
