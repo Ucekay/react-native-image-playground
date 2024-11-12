@@ -6,8 +6,8 @@ import { launchImagePlaygroundAsync } from "react-native-image-playground";
 export default function App() {
   const [url, setUrl] = useState<string | undefined>(undefined);
 
-  const handlePress = () => {
-    launchImagePlaygroundAsync()
+  const handlePress = async () => {
+    launchImagePlaygroundAsync({ concepts: { text: ["cat", "forest"] } })
       .then((res) => {
         setUrl(res);
         console.log("Image Playground result", res);
