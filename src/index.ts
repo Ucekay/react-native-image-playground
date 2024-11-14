@@ -18,8 +18,8 @@ const launchImagePlaygroundAsync = async (
 ): Promise<string | undefined> => {
   if (Platform.OS === "android") {
     Alert.alert(
-      "Apple Platform Only",
-      "This Image Playground feature uses Apple Intelligence and is only available on iOS devices.",
+      "Image Playground is not available",
+      "Your device does not support Image Playground",
       [{ text: "Close" }],
     );
     return;
