@@ -47,7 +47,7 @@ class UnsupportedImagePlaygroundHandler: ImagePlaygroundHandler {
         let alert = UIAlertController(
           title: "Image Playground is not available",
           message:
-            "Image Playground is only available on iOS 18.1 and later, and is supported on iPhone 15 Pro, iPhone 15 Pro Max, and iPhone 16 series.",
+            "Your device does not support Image Playground, or you don't have access to it.",
           preferredStyle: .alert
         )
         alert.addAction(
