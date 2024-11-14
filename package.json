@@ -1,6 +1,6 @@
 {
   "name": "react-native-apple-image-playground",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Native module for iOS Image Playground - Create stunning images with Apple's Image Playground on iPhone 15 Pro and later",
   "main": "build/index.js",
   "types": "build/index.d.ts",
