@@ -7,7 +7,7 @@ export default function App() {
   const [url, setUrl] = useState<string | undefined>(undefined);
 
   const handlePress = async () => {
-    launchImagePlaygroundAsync({ concepts: { text: ["cat", "forest"] } })
+    launchImagePlaygroundAsync()
       .then((res) => {
         setUrl(res);
         console.log("Image Playground result", res);
