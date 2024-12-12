@@ -31,7 +31,7 @@ npx expo run:ios
 
 ## Limitations
 
-- iOS 18.1 or later is required
+- iOS 18.2 +
 - Only supported on iPhone 15 Pro, iPhone 15 Pro Max, or iPhone 16 series
 - Physical device is required for testing
 
