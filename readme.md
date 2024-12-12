@@ -35,7 +35,7 @@ npx expo run:ios
 - Only supported on iPhone 15 Pro, iPhone 15 Pro Max, or iPhone 16 series
 - Physical device is required for testing
 
-## Usage
+## Baisc Usage
 
 ```tsx
 import { Image } from "expo-image";
@@ -115,4 +115,38 @@ Launches the Image Playground and returns the URL of the created image. You can 
 
 #### Examples
 
-Basic usage:
+```tsx
+// Text-based concepts example
+const handleTextConcepts = async () => {
+  const result = await launchImagePlaygroundAsync({
+    concepts: {
+      text: ["sunset at beach", "tropical paradise"]
+    }
+  });
+  // Handle result
+};
+
+// Content-based concepts example
+const handleContentConcepts = async () => {
+  const result = await launchImagePlaygroundAsync({
+    concepts: {
+      title: "Summer Vacation",
+      content: "A beautiful day at the beach with crystal clear water and white sand. Palm trees swaying in the warm breeze."
+    }
+  });
+  // Handle result
+};
+
+// Example with source image
+const handleWithSource = async () => {
+  const result = await launchImagePlaygroundAsync({
+    source: "https://example.com/beach.jpg",
+    concepts: {
+      text: "enhance sunset colors"
+    }
+  });
+  // Handle result
+};
+```
+
+
