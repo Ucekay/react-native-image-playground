@@ -1,4 +1,4 @@
-# React Native Image Playground
+# React Native Apple Image Playground
 
 A React Native/Expo package that integrates **Image Playground** feature into your app.
 **Image Playground** is one of the features introduced in iOS 18.2 as part of Apple Intelligence, allowing users to generate images using AI. This package wraps the **Image Playground API** and enables seamless integration into React Native apps.
@@ -69,12 +69,16 @@ export default function App() {
 ## Demo
 
 ### Basic Usage
+https://github.com/user-attachments/assets/aa741b50-9bed-4e26-8ad7-c3311e124168
 
 ### With Concepts
+https://github.com/user-attachments/assets/59d4082b-2904-4fd2-8bcc-790632cdc887
 
 ### With Title and Content
+https://github.com/user-attachments/assets/d7657c12-693d-4a7d-9153-089d0d7d40e1
 
 ### With Source Image
+https://github.com/user-attachments/assets/c81b06b7-d8cc-41a5-9de4-e73c9f18d7cd
 
 ## API
 
@@ -121,7 +125,7 @@ const handleTextConcepts = async () => {
 const handleContentConcepts = async () => {
   const result = await launchImagePlaygroundAsync({
     concepts: {
-      title: "Summer Vacation",
+      title: "Summer Vacation", // title is optional
       content: "A beautiful day at the beach with crystal clear water and white sand. Palm trees swaying in the warm breeze."
     }
   });
