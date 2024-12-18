@@ -3,7 +3,7 @@
 A React Native/Expo package that integrates **Image Playground** feature into your app.
 **Image Playground** is one of the features introduced in iOS 18.2 as part of Apple Intelligence, allowing users to generate images using AI. This package wraps the **Image Playground API** and enables seamless integration into React Native apps.
 
-For more details about Apple's Intelligence framework and Image Playground, refer to the following resources:
+For more details about Apple Intelligence and Image Playground framework, refer to the following resources:
 -  [Apple Intelligence Overview](https://developer.apple.com/apple-intelligence/)
 -  [Image Playground Framework Documentation](https://developer.apple.com/documentation/imageplayground)
 
@@ -45,7 +45,7 @@ npx expo run:ios
 ```tsx
 import { Image } from "expo-image";
 import { useState } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Button, View } from "react-native";
 import { launchImagePlaygroundAsync } from "react-native-image-playground";
 
 export default function App() {
@@ -58,37 +58,23 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      {url && (
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: url }} style={styles.image} />
-        </View>
-      )}
+    <View style={{ flex: 1 }}>
+      {url && ( <Image source={{ uri: url }} style={{width: 200, height: 200 }} /> )}
       <Button title="Launch Image Playground" onPress={handlePress} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imageContainer: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-    borderCurve: "continuous",
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
 ```
+
+## Demo
+
+### Basic Usage
+
+### With Concepts
+
+### With Title and Content
+
+### With Source Image
 
 ## API
 
